@@ -1,0 +1,128 @@
+<div class="page-wrapper">
+  <div class="onboarding-shell">
+    <div class="brand-header">
+      <img src="images/logo.png" alt="Smart Nutrition Tracker Logo" class="logo">
+      <h1>Smart Nutrition Tracker</h1>
+    </div>
+
+    <div class="hero-text">
+      <h2>Tell us about yourself</h2>
+      <p>We'll use this to personalize your nutrition plan.</p>
+    </div>
+
+    <div class="onboarding-card">
+      <div class="progress-top">
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill"></div>
+        </div>
+        <div class="step-label">Step 1 of 4</div>
+      </div>
+
+      <form [formGroup]="onboardingForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="unit-toggle-row">
+          <button
+            type="button"
+            class="unit-pill"
+            [class.active]="isMetric()"
+            (click)="selectUnit('metric')"
+          >
+            <span class="radio-dot"></span>
+            Metric (cm, kg)
+          </button>
+
+          <button
+            type="button"
+            class="unit-pill"
+            [class.active]="isImperial()"
+            (click)="selectUnit('imperial')"
+          >
+            <span class="radio-dot"></span>
+            Imperial (ft, lbs)
+          </button>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="field-block">
+          <label for="age">Age</label>
+          <select id="age" formControlName="age">
+            <option value="" disabled>Select your age</option>
+            <option *ngFor="let ageValue of ageOptions" [value]="ageValue">
+              {{ageValue}}
+            </option>
+          </select>
+        </div>
+
+        <div class="field-block">
+          <label for="gender">Gender</label>
+          <select id="gender" formControlName="gender">
+            <option value="" disabled>Select your gender</option>
+            <option *ngFor="let genderValue of genderOptions" [value]="genderValue">
+              {{genderValue}}
+            </option>
+          </select>
+        </div>
+
+        <div class="double-grid" *ngIf="isMetric()">
+          <div class="field-block">
+            <label for="heightCm">Height (cm)</label>
+            <select id="heightCm" formControlName="heightCm">
+              <option value="" disabled>Select your height</option>
+              <option *ngFor="let h of metricHeightOptions" [value]="h">
+                {{h}} cm
+              </option>
+            </select>
+          </div>
+
+          <div class="field-block">
+            <label for="weightKg">Current weight</label>
+            <select id="weightKg" formControlName="weightKg">
+              <option value="" disabled>Select your current weight</option>
+              <option *ngFor="let w of metricWeightOptions" [value]="w">
+                {{w}} kg
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="triple-grid" *ngIf="isImperial()">
+          <div class="field-block">
+            <label for="heightFt">Height (ft)</label>
+            <select id="heightFt" formControlName="heightFt" (change)="onFeetChange()">
+              <option value="" disabled>Select ft</option>
+              <option *ngFor="let ft of imperialFeetOptions" [value]="ft">
+                {{ft}} ft
+              </option>
+            </select>
+          </div>
+
+          <div class="field-block">
+            <label for="heightIn">Height (in)</label>
+            <select id="heightIn" formControlName="heightIn">
+              <option value="" disabled>Select in</option>
+              <option *ngFor="let inch of getAvailableImperialInches()" [value]="inch">
+                {{inch}} in
+              </option>
+            </select>
+          </div>
+
+          <div class="field-block">
+            <label for="weightLbs">Current weight</label>
+            <select id="weightLbs" formControlName="weightLbs">
+              <option value="" disabled>Select your current weight</option>
+              <option *ngFor="let lbs of imperialWeightOptions" [value]="lbs">
+                {{lbs}} lbs
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <small class="error-message" *ngIf="errorMessage">{{errorMessage}}</small>
+
+        <div class="actions-row">
+          <button type="submit" class="next-btn">Next</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

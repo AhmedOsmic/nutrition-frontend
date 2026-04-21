@@ -1,0 +1,117 @@
+<div class="page-wrapper">
+  <div class="onboarding-shell">
+    <div class="brand-header">
+      <img src="images/logo.png" alt="Smart Nutrition Tracker Logo" class="logo">
+      <h1>Smart Nutrition Tracker</h1>
+    </div>
+
+    <div class="hero-text">
+      <h2>Set your lifestyle and goal</h2>
+      <p>This helps us estimate your daily nutrition targets.</p>
+    </div>
+
+    <div class="onboarding-card">
+      <div class="progress-top">
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill"></div>
+        </div>
+        <div class="step-label">Step 2 of 4</div>
+      </div>
+
+      <form [formGroup]="step2Form" (ngSubmit)="onSubmit()" novalidate>
+        <div class="field-block">
+          <label for="activityLevel">Activity level</label>
+          <select id="activityLevel" formControlName="activityLevel">
+            <option value="" disabled>Select your activity level</option>
+            <option *ngFor="let activity of activityOptions" [value]="activity">
+              {{activity}}
+            </option>
+          </select>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="field-block">
+          <label>Goal</label>
+
+          <div class="goal-grid">
+            <button
+              type="button"
+              class="goal-card"
+              [class.active]="goal.value==='lose'"
+              (click)="selectGoal('lose')"
+            >
+              <div class="goal-icon">📉</div>
+              <h3>Lose weight</h3>
+              <p>Reduce your body weight.</p>
+              <span class="goal-check" *ngIf="goal.value==='lose'">✓</span>
+            </button>
+
+            <button
+              type="button"
+              class="goal-card"
+              [class.active]="goal.value==='maintain'"
+              (click)="selectGoal('maintain')"
+            >
+              <div class="goal-icon">💙</div>
+              <h3>Maintain weight</h3>
+              <p>Stay at your current weight.</p>
+              <span class="goal-check" *ngIf="goal.value==='maintain'">✓</span>
+            </button>
+
+            <button
+              type="button"
+              class="goal-card"
+              [class.active]="goal.value==='gain'"
+              (click)="selectGoal('gain')"
+            >
+              <div class="goal-icon">🏋️</div>
+              <h3>Gain muscle</h3>
+              <p>Increase muscle mass.</p>
+              <span class="goal-check" *ngIf="goal.value==='gain'">✓</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="double-grid">
+          <div class="field-block" *ngIf="isMetric()">
+            <label for="targetWeightKg">Target weight</label>
+            <select id="targetWeightKg" formControlName="targetWeightKg">
+              <option value="" disabled>Select your target weight</option>
+              <option *ngFor="let weight of metricTargetWeightOptions" [value]="weight">
+                {{weight}} kg
+              </option>
+            </select>
+          </div>
+
+          <div class="field-block" *ngIf="isImperial()">
+            <label for="targetWeightLbs">Target weight</label>
+            <select id="targetWeightLbs" formControlName="targetWeightLbs">
+              <option value="" disabled>Select your target weight</option>
+              <option *ngFor="let weight of imperialTargetWeightOptions" [value]="weight">
+                {{weight}} lbs
+              </option>
+            </select>
+          </div>
+
+          <div class="field-block">
+            <label for="mealsPerDay">Meals per day</label>
+            <select id="mealsPerDay" formControlName="mealsPerDay">
+              <option value="" disabled>Select meals per day</option>
+              <option *ngFor="let meals of mealsOptions" [value]="meals">
+                {{meals}}
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <small class="success-message" *ngIf="successMessage">{{successMessage}}</small>
+
+        <div class="actions-row">
+          <button type="button" class="back-btn" (click)="goBack()">Back</button>
+          <button type="submit" class="next-btn">Next</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

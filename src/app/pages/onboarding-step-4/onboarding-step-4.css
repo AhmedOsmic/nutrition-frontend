@@ -1,0 +1,274 @@
+*{
+  box-sizing:border-box;
+}
+
+:host{
+  display:block;
+  min-height:100vh;
+}
+
+.page-wrapper{
+  min-height:100vh;
+  background:linear-gradient(180deg,#efedf2 0%,#ececf2 100%);
+  padding:48px 20px 60px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-start;
+}
+
+.onboarding-shell{
+  width:100%;
+  max-width:980px;
+}
+
+.brand-header{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:16px;
+  margin-bottom:24px;
+}
+
+.logo{
+  width:64px;
+  height:64px;
+  object-fit:contain;
+  display:block;
+}
+
+.brand-header h1{
+  margin:0;
+  font-size:2.2rem;
+  font-weight:800;
+  color:#17345a;
+  letter-spacing:-0.03em;
+}
+
+.hero-text{
+  text-align:center;
+  margin-bottom:28px;
+}
+
+.hero-text h2{
+  margin:0 0 10px;
+  font-size:3.4rem;
+  font-weight:800;
+  color:#17345a;
+  letter-spacing:-0.03em;
+}
+
+.hero-text p{
+  margin:0;
+  font-size:1.25rem;
+  color:#68758d;
+}
+
+.onboarding-card{
+  background:#f8f7fb;
+  border-radius:28px;
+  box-shadow:0 18px 40px rgba(31,44,76,0.08);
+  overflow:hidden;
+  border:1px solid #e4e7ef;
+}
+
+.progress-top{
+  padding:22px 24px 12px;
+  border-bottom:1px solid #e3e6ef;
+}
+
+.progress-bar-track{
+  width:100%;
+  height:10px;
+  border-radius:999px;
+  background:#dfe3ec;
+  overflow:hidden;
+  margin-bottom:14px;
+}
+
+.progress-bar-fill{
+  height:100%;
+  border-radius:999px;
+  background:linear-gradient(180deg,#8acc2c 0%,#6ab11f 100%);
+}
+
+.step4-fill{
+  width:100%;
+}
+
+.step-label{
+  text-align:right;
+  color:#6f7d97;
+  font-size:1.15rem;
+  font-weight:700;
+}
+
+.summary-rows{
+  padding:0 26px;
+}
+
+.summary-row{
+  display:grid;
+  grid-template-columns:200px 1fr;
+  gap:14px;
+  align-items:start;
+  padding:18px 0;
+  border-bottom:1px solid #e6e8f0;
+}
+
+.summary-label{
+  color:#17345a;
+  font-size:1.15rem;
+  font-weight:800;
+}
+
+.summary-value{
+  color:#2e4770;
+  font-size:1.15rem;
+  font-weight:600;
+}
+
+.targets-section{
+  padding:20px 26px 8px;
+}
+
+.targets-section h3{
+  margin:0 0 16px;
+  color:#17345a;
+  font-size:1.2rem;
+  font-weight:800;
+}
+
+.targets-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:14px;
+}
+
+.target-card{
+  background:#ffffff;
+  border:1px solid #dde2ec;
+  border-radius:14px;
+  padding:16px;
+  box-shadow:0 6px 16px rgba(31,44,76,0.05);
+}
+
+.target-title{
+  color:#17345a;
+  font-size:1.05rem;
+  font-weight:800;
+  margin-bottom:10px;
+}
+
+.target-value{
+  color:#17345a;
+  font-size:2rem;
+  font-weight:900;
+  letter-spacing:-0.03em;
+}
+
+.target-value span{
+  font-size:1.15rem;
+  font-weight:700;
+  margin-left:4px;
+}
+
+.actions-row{
+  display:flex;
+  justify-content:space-between;
+  gap:16px;
+  padding:22px 26px 28px;
+}
+
+.back-btn{
+  min-width:180px;
+  height:58px;
+  border:1.5px solid #d7dce7;
+  border-radius:14px;
+  background:#ffffff;
+  color:#415675;
+  font-size:1.4rem;
+  font-weight:700;
+  cursor:pointer;
+}
+
+.next-btn{
+  min-width:220px;
+  height:62px;
+  border:none;
+  border-radius:14px;
+  background:linear-gradient(180deg,#7fd126 0%,#56b11d 58%,#389613 100%);
+  color:#ffffff;
+  font-size:1.9rem;
+  font-weight:800;
+  cursor:pointer;
+  box-shadow:0 10px 24px rgba(66,164,22,0.24);
+  transition:transform 0.2s ease,filter 0.2s ease;
+}
+
+.next-btn:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.02);
+}
+
+.finish-btn{
+  min-width:260px;
+}
+
+@media(max-width:900px){
+  .hero-text h2{
+    font-size:2.5rem;
+  }
+
+  .summary-row{
+    grid-template-columns:1fr;
+    gap:8px;
+  }
+
+  .targets-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .actions-row{
+    flex-direction:column;
+  }
+
+  .back-btn,
+  .next-btn{
+    width:100%;
+    min-width:unset;
+  }
+}
+
+@media(max-width:600px){
+  .page-wrapper{
+    padding:24px 14px 40px;
+  }
+
+  .brand-header{
+    flex-direction:column;
+    text-align:center;
+  }
+
+  .brand-header h1{
+    font-size:1.8rem;
+  }
+
+  .hero-text h2{
+    font-size:2.1rem;
+  }
+
+  .hero-text p{
+    font-size:1rem;
+  }
+
+  .summary-rows,
+  .targets-section,
+  .actions-row{
+    padding-left:18px;
+    padding-right:18px;
+  }
+
+  .targets-grid{
+    grid-template-columns:1fr;
+  }
+}

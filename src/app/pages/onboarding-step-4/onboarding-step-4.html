@@ -1,0 +1,80 @@
+<div class="page-wrapper">
+  <div class="onboarding-shell">
+    <div class="brand-header">
+      <img src="images/logo.png" alt="Smart Nutrition Tracker Logo" class="logo">
+      <h1>Smart Nutrition Tracker</h1>
+    </div>
+
+    <div class="hero-text">
+      <h2>Review Your Plan</h2>
+      <p>Here’s a summary of your personalized nutrition plan.</p>
+    </div>
+
+    <div class="onboarding-card">
+      <div class="progress-top">
+        <div class="progress-bar-track">
+          <div class="progress-bar-fill step4-fill"></div>
+        </div>
+        <div class="step-label">Step 4 of 4</div>
+      </div>
+
+      <div class="summary-rows">
+        <div class="summary-row">
+          <div class="summary-label">Goal:</div>
+          <div class="summary-value">{{goalLabel}}</div>
+        </div>
+
+        <div class="summary-row">
+          <div class="summary-label">Activity Level:</div>
+          <div class="summary-value">{{step2Data?.activityLevel}}</div>
+        </div>
+
+        <div class="summary-row">
+          <div class="summary-label">Allergies:</div>
+          <div class="summary-value">{{allergiesLabel}}</div>
+        </div>
+
+        <div class="summary-row">
+          <div class="summary-label">Foods to Avoid:</div>
+          <div class="summary-value">{{foodsToAvoidLabel}}</div>
+        </div>
+
+        <div class="summary-row">
+          <div class="summary-label">Preferred Cuisine:</div>
+          <div class="summary-value">{{preferredCuisineLabel}}</div>
+        </div>
+      </div>
+
+      <div class="targets-section">
+        <h3>Daily Targets:</h3>
+
+        <div class="targets-grid">
+          <div class="target-card">
+            <div class="target-title">Calories:</div>
+            <div class="target-value">{{dailyTargets.calories | number:'1.0-0'}}<span>kcal</span></div>
+          </div>
+
+          <div class="target-card">
+            <div class="target-title">Protein:</div>
+            <div class="target-value">{{dailyTargets.protein}}<span>g</span></div>
+          </div>
+
+          <div class="target-card">
+            <div class="target-title">Carbs:</div>
+            <div class="target-value">{{dailyTargets.carbs}}<span>g</span></div>
+          </div>
+
+          <div class="target-card">
+            <div class="target-title">Fats:</div>
+            <div class="target-value">{{dailyTargets.fats}}<span>g</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions-row">
+        <button type="button" class="back-btn" (click)="goBack()">Back</button>
+        <button type="button" class="next-btn finish-btn" (click)="finishSetup()">Finish Setup</button>
+      </div>
+    </div>
+  </div>
+</div>

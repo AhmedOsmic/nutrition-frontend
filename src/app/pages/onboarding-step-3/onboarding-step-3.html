@@ -1,0 +1,60 @@
+<div class="page-wrapper">
+  <div class="top-brand">
+    <img src="images/logo.png" alt="Smart Nutrition Tracker Logo" class="logo">
+    <h1>Smart Nutrition Tracker</h1>
+  </div>
+
+  <div class="hero-text">
+    <h2>Tell us about yourself</h2>
+    <p>We'll like this to personalize your nutrition plan.</p>
+  </div>
+
+  <div class="card">
+    <div class="progress-row">
+      <div class="progress-bar">
+        <div class="progress-fill"></div>
+      </div>
+      <div class="step-text">Step 3 of 4</div>
+    </div>
+
+    <div class="section">
+      <h3>Allergies</h3>
+
+      <div class="pill-grid">
+        <button
+          type="button"
+          class="pill"
+          *ngFor="let allergy of allergies"
+          [class.active]="isSelected(allergy.label)"
+          (click)="toggleAllergy(allergy.label)">
+          <span class="pill-icon">{{allergy.icon}}</span>
+          <span>{{allergy.label}}</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>Foods to Avoid</h3>
+      <input
+        type="text"
+        class="text-input"
+        placeholder="Enter specific foods to avoid..."
+        [formControl]="stepThreeForm.controls.foodsToAvoid">
+    </div>
+
+    <div class="section">
+      <h3>Preferred Cuisine</h3>
+      <div class="select-wrap">
+        <select class="select-input" [formControl]="stepThreeForm.controls.preferredCuisine">
+          <option value="">Select your preferred cuisine</option>
+          <option *ngFor="let cuisine of cuisines" [value]="cuisine">{{cuisine}}</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button type="button" class="back-btn" (click)="goBack()">Back</button>
+      <button type="button" class="next-btn" (click)="goNext()">Next</button>
+    </div>
+  </div>
+</div>

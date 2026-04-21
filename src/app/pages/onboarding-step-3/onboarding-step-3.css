@@ -1,0 +1,272 @@
+*{
+  box-sizing:border-box;
+}
+
+:host{
+  display:block;
+  min-height:100vh;
+}
+
+.page-wrapper{
+  min-height:100vh;
+  background:#efedf2;
+  padding:34px 20px 40px;
+}
+
+.top-brand{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:18px;
+  margin-bottom:18px;
+}
+
+.logo{
+  width:78px;
+  height:78px;
+  object-fit:contain;
+  background:#ffffff;
+  border-radius:14px;
+  padding:8px;
+  box-shadow:0 4px 14px rgba(0,0,0,0.06);
+}
+
+.top-brand h1{
+  margin:0;
+  color:#243766;
+  font-size:3rem;
+  font-weight:800;
+  letter-spacing:-0.03em;
+}
+
+.hero-text{
+  text-align:center;
+  margin-bottom:26px;
+}
+
+.hero-text h2{
+  margin:0 0 10px;
+  color:#243766;
+  font-size:4.2rem;
+  line-height:1.05;
+  font-weight:800;
+  letter-spacing:-0.04em;
+}
+
+.hero-text p{
+  margin:0;
+  color:#707894;
+  font-size:1.2rem;
+  font-weight:500;
+}
+
+.card{
+  width:100%;
+  max-width:1320px;
+  margin:0 auto;
+  background:#faf9fd;
+  border-radius:34px;
+  box-shadow:0 18px 40px rgba(0,0,0,0.08);
+  padding:26px 40px 34px;
+}
+
+.progress-row{
+  margin-bottom:18px;
+}
+
+.progress-bar{
+  width:100%;
+  height:10px;
+  background:#dde0eb;
+  border-radius:999px;
+  overflow:hidden;
+  position:relative;
+  margin-bottom:12px;
+}
+
+.progress-fill{
+  width:75%;
+  height:100%;
+  background:linear-gradient(180deg,#7cc12b 0%,#6ab11f 100%);
+  border-radius:999px;
+}
+
+.step-text{
+  text-align:right;
+  color:#8b8faa;
+  font-size:1.15rem;
+  font-weight:800;
+}
+
+.section{
+  border-top:1px solid #e8e7f0;
+  padding-top:18px;
+  margin-top:18px;
+}
+
+.section h3{
+  margin:0 0 16px;
+  color:#243766;
+  font-size:1.15rem;
+  font-weight:800;
+}
+
+.pill-grid{
+  display:flex;
+  flex-wrap:wrap;
+  gap:14px;
+}
+
+.pill{
+  border:1.5px solid #d9dce8;
+  background:#ffffff;
+  color:#49516e;
+  border-radius:22px;
+  min-height:58px;
+  padding:0 20px;
+  display:inline-flex;
+  align-items:center;
+  gap:12px;
+  font-size:1.05rem;
+  font-weight:700;
+  cursor:pointer;
+  box-shadow:0 3px 10px rgba(0,0,0,0.03);
+  transition:all 0.2s ease;
+}
+
+.pill:hover{
+  transform:translateY(-1px);
+}
+
+.pill.active{
+  border-color:#79b93b;
+  background:#f3faea;
+  color:#2f4b1f;
+}
+
+.pill-icon{
+  font-size:1.5rem;
+  line-height:1;
+}
+
+.text-input,
+.select-input{
+  width:100%;
+  height:60px;
+  border:1.5px solid #d8dce9;
+  border-radius:18px;
+  background:#ffffff;
+  padding:0 20px;
+  font-size:1rem;
+  color:#49516e;
+  outline:none;
+}
+
+.text-input::placeholder{
+  color:#8f96ad;
+}
+
+.text-input:focus,
+.select-input:focus{
+  border-color:#8bbd45;
+  box-shadow:0 0 0 4px rgba(139,189,69,0.12);
+}
+
+.select-wrap{
+  max-width:620px;
+}
+
+.actions{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:34px;
+}
+
+.back-btn{
+  border:none;
+  background:transparent;
+  color:#243766;
+  font-size:1.25rem;
+  font-weight:800;
+  cursor:pointer;
+  padding:10px 0;
+}
+
+.next-btn{
+  min-width:360px;
+  height:72px;
+  border:none;
+  border-radius:18px;
+  background:linear-gradient(180deg,#8dcc2a 0%,#6bb11f 55%,#4f9717 100%);
+  color:#ffffff;
+  font-size:2rem;
+  font-weight:900;
+  cursor:pointer;
+  box-shadow:0 14px 24px rgba(92,163,31,0.22);
+  transition:transform 0.2s ease,filter 0.2s ease;
+}
+
+.next-btn:hover{
+  transform:translateY(-1px);
+  filter:brightness(1.02);
+}
+
+@media(max-width:1100px){
+  .top-brand h1{
+    font-size:2.4rem;
+  }
+
+  .hero-text h2{
+    font-size:3.2rem;
+  }
+
+  .card{
+    padding:24px 24px 28px;
+  }
+
+  .next-btn{
+    min-width:260px;
+  }
+}
+
+@media(max-width:700px){
+  .page-wrapper{
+    padding:20px 12px 28px;
+  }
+
+  .top-brand{
+    flex-direction:column;
+    gap:10px;
+  }
+
+  .top-brand h1{
+    font-size:1.8rem;
+    text-align:center;
+  }
+
+  .hero-text h2{
+    font-size:2.2rem;
+  }
+
+  .hero-text p{
+    font-size:1rem;
+  }
+
+  .actions{
+    flex-direction:column;
+    gap:16px;
+    align-items:stretch;
+  }
+
+  .next-btn{
+    min-width:100%;
+    width:100%;
+    height:62px;
+    font-size:1.6rem;
+  }
+
+  .back-btn{
+    text-align:left;
+  }
+}

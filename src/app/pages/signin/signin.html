@@ -1,0 +1,73 @@
+<div class="page-wrapper">
+  <div class="signin-container">
+    <div class="brand-header">
+      <img src="images/logo.png" alt="Smart Nutrition Tracker Logo" class="logo">
+      <h1>Smart Nutrition Tracker</h1>
+    </div>
+
+    <div class="hero-text">
+      <h2><span>Sign In</span> to Smart Nutrition Tracker</h2>
+    </div>
+
+    <form [formGroup]="signInForm" (ngSubmit)="onSubmit()" class="signin-form" novalidate>
+      <div class="form-card">
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="Enter email"
+            autocomplete="email"
+            [class.input-error]="email.invalid&&(email.touched||submitted)"
+          >
+
+          <small class="error-message" *ngIf="email.hasError('required')&&(email.touched||submitted)">
+            Email is required.
+          </small>
+
+          <small class="error-message" *ngIf="email.hasError('email')&&(email.touched||submitted)">
+            Enter a valid email address.
+          </small>
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+
+          <div class="password-wrapper">
+            <input
+              id="password"
+              [type]="showPassword?'text':'password'"
+              formControlName="password"
+              placeholder="Enter password"
+              autocomplete="current-password"
+              [class.input-error]="password.invalid&&(password.touched||submitted)"
+            >
+
+            <button type="button" class="toggle-password" (click)="togglePassword()">
+              {{showPassword?'Hide':'Show'}}
+            </button>
+          </div>
+
+          <small class="error-message" *ngIf="password.hasError('required')&&(password.touched||submitted)">
+            Password is required.
+          </small>
+
+          <small class="error-message" *ngIf="password.hasError('minlength')&&(password.touched||submitted)">
+            Password must have at least 8 characters.
+          </small>
+        </div>
+
+        <small class="error-message" *ngIf="errorMessage">{{errorMessage}}</small>
+        <small class="success-message" *ngIf="successMessage">{{successMessage}}</small>
+
+        <button type="submit" class="signin-btn">Sign In</button>
+
+        <p class="signup-text">
+          Don't have an account?
+          <a routerLink="/signup" class="create-link">Create one</a>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>

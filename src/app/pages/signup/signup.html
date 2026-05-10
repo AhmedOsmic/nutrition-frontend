@@ -1,0 +1,114 @@
+<div class="page-wrapper">
+  <div class="signup-container">
+    <div class="brand-header">
+      <img src="images/logo.png" alt="Smart Nutrition Tracker Logo" class="logo">
+      <h1>Smart Nutrition Tracker</h1>
+    </div>
+
+    <div class="hero-text">
+      <h2><span>Sign Up</span> to Join Smart Nutrition Tracker</h2>
+      <p>Track your meals, scan foods, and get personalized diet recommendations!</p>
+    </div>
+
+    <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" class="signup-form" novalidate>
+      <div class="form-card">
+        <div class="input-group">
+          <label for="fullName">Full Name</label>
+          <input
+            id="fullName"
+            type="text"
+            formControlName="fullName"
+            placeholder="Enter full name"
+            [class.input-error]="fullName.invalid&&(fullName.touched||submitted)"
+          >
+
+          <small class="error-message" *ngIf="fullName.hasError('required')&&(fullName.touched||submitted)">
+            Full name is required.
+          </small>
+
+          <small class="error-message" *ngIf="fullName.hasError('minlength')&&(fullName.touched||submitted)">
+            Full name must have at least 2 characters.
+          </small>
+        </div>
+
+        <div class="input-group">
+          <label for="email">Email</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            placeholder="Enter email"
+            autocomplete="email"
+            [class.input-error]="email.invalid&&(email.touched||submitted)"
+          >
+
+          <small class="error-message" *ngIf="email.hasError('required')&&(email.touched||submitted)">
+            Email is required.
+          </small>
+
+          <small class="error-message" *ngIf="email.hasError('email')&&(email.touched||submitted)">
+            Enter a valid email address.
+          </small>
+        </div>
+
+        <div class="input-group">
+          <label for="password">Password</label>
+          <div class="password-wrapper">
+            <input
+              id="password"
+              [type]="showPassword?'text':'password'"
+              formControlName="password"
+              placeholder="Enter password"
+              autocomplete="new-password"
+              [class.input-error]="password.invalid&&(password.touched||submitted)"
+            >
+
+            <button type="button" class="toggle-password" (click)="togglePassword()">
+              {{showPassword?'Hide':'Show'}}
+            </button>
+          </div>
+
+          <small class="error-message" *ngIf="password.hasError('required')&&(password.touched||submitted)">
+            Password is required.
+          </small>
+
+          <small class="error-message" *ngIf="password.hasError('minlength')&&(password.touched||submitted)">
+            Password must have at least 8 characters.
+          </small>
+        </div>
+
+        <div class="input-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="password-wrapper">
+            <input
+              id="confirmPassword"
+              [type]="showConfirmPassword?'text':'password'"
+              formControlName="confirmPassword"
+              placeholder="Confirm password"
+              autocomplete="new-password"
+              [class.input-error]="(confirmPassword.invalid&&(confirmPassword.touched||submitted))||errorMessage"
+            >
+
+            <button type="button" class="toggle-password" (click)="toggleConfirmPassword()">
+              {{showConfirmPassword?'Hide':'Show'}}
+            </button>
+          </div>
+
+          <small class="error-message" *ngIf="confirmPassword.hasError('required')&&(confirmPassword.touched||submitted)">
+            Confirm password is required.
+          </small>
+        </div>
+
+        <small class="error-message" *ngIf="errorMessage">{{errorMessage}}</small>
+        <small class="success-message" *ngIf="successMessage">{{successMessage}}</small>
+
+        <button type="submit" class="signup-btn">Sign Up</button>
+
+        <p class="signin-text">
+          Already have an account?
+          <a routerLink="/signin">Log in</a>
+        </p>
+      </div>
+    </form>
+  </div>
+</div>

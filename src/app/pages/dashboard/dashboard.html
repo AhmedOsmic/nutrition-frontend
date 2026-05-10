@@ -1,0 +1,350 @@
+<div class="dashboard-page">
+  <header class="topbar">
+    <div class="brand-left">
+      <img src="images/logo.png" alt="Smart Nutrition Tracker Logo" class="logo">
+      <h1>Smart Nutrition Tracker</h1>
+    </div>
+
+    <div class="topbar-right">
+      <button type="button" class="nav-chip" (click)="goTo('/recipes')">🍽️ Recipes</button>
+
+      <div class="profile-menu-wrap" (click)="$event.stopPropagation()">
+        <button
+          type="button"
+          class="profile-trigger"
+          (click)="toggleProfileMenu()"
+          [attr.aria-expanded]="profileMenuOpen"
+          aria-haspopup="menu"
+        >
+          <img
+            *ngIf="currentUser.avatarUrl"
+            [src]="currentUser.avatarUrl"
+            [alt]="currentUser.fullName + ' profile photo'"
+            class="avatar avatar-image"
+          >
+          <div *ngIf="!currentUser.avatarUrl" class="avatar">{{initials}}</div>
+
+          <div class="profile-text">
+            <span>{{firstName}}</span>
+            <small>{{currentUser.username ? '@' + currentUser.username : 'My account'}}</small>
+          </div>
+
+          <span class="profile-chevron" [class.open]="profileMenuOpen">⌄</span>
+        </button>
+
+        <div *ngIf="profileMenuOpen" class="profile-dropdown" role="menu">
+          <div class="profile-dropdown-head">
+            <strong>{{currentUser.fullName}}</strong>
+            <small>{{currentUser.email}}</small>
+          </div>
+
+          <button type="button" role="menuitem" (click)="openProfileMenuPage('/profile')">
+            <span>👤</span> Edit Profile
+          </button>
+          <button type="button" role="menuitem" (click)="openProfileMenuPage('/friends')">
+            <span>👥</span> Friends
+          </button>
+          <button type="button" role="menuitem" (click)="openProfileMenuPage('/posts')">
+            <span>🖼️</span> Posts
+          </button>
+          <div class="profile-menu-divider"></div>
+          <button type="button" role="menuitem" class="logout-menu-item" (click)="logout()">
+            <span>↪</span> Logout
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="dashboard-shell">
+    <section class="welcome-row">
+      <h2>Welcome, {{firstName}}!</h2>
+    </section>
+
+    <section class="summary-section">
+      <h3>Today's Summary</h3>
+
+      <div class="summary-grid">
+        <div class="summary-card large">
+          <div class="card-title">Calories Remaining</div>
+          <div class="card-value">{{caloriesRemaining}}<span>kcal / {{dailyTargets.calories}} kcal</span></div>
+          <div class="progress-track">
+            <div class="progress-fill green" [style.width.%]="caloriesUsedPercent"></div>
+          </div>
+          <div class="card-subtext">{{consumed.calories}} Used</div>
+        </div>
+
+        <div class="summary-card">
+          <div class="card-title">Protein</div>
+          <div class="card-value">{{consumed.protein}}g<span>/ {{dailyTargets.protein}}g</span></div>
+          <div class="progress-track">
+            <div class="progress-fill green" [style.width.%]="proteinPercent"></div>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="card-title">Carbs</div>
+          <div class="card-value">{{consumed.carbs}}g<span>/ {{dailyTargets.carbs}}g</span></div>
+          <div class="progress-track">
+            <div class="progress-fill orange" [style.width.%]="carbsPercent"></div>
+          </div>
+        </div>
+
+        <div class="summary-card">
+          <div class="card-title">Fats</div>
+          <div class="card-value">{{consumed.fats}}g<span>/ {{dailyTargets.fats}}g</span></div>
+          <div class="progress-track">
+            <div class="progress-fill red" [style.width.%]="fatsPercent"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="actions-row">
+        <input
+          #foodImageInput
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          capture="environment"
+          hidden
+          (change)="onFoodImageSelected($event)"
+        >
+
+        <button
+          type="button"
+          class="action-btn blue"
+          (click)="openFoodScanner(foodImageInput)"
+          [disabled]="isScanningFood"
+        >
+          {{isScanningFood ? '⏳ Analyzing Food...' : '📷 Scan Food'}}
+        </button>
+        <input
+          #barcodeImageInput
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          capture="environment"
+          hidden
+          (change)="onBarcodeImageSelected($event)"
+        >
+
+        <button
+          type="button"
+          class="action-btn blue"
+          (click)="openBarcodeScanner(barcodeImageInput)"
+          [disabled]="isScanningBarcode"
+        >
+          {{isScanningBarcode ? '⏳ Reading Barcode...' : '🧾 Scan Barcode'}}
+        </button>
+        <button type="button" class="action-btn green" (click)="toggleMealForm()">
+          {{showMealForm?'Close Meal Form':'➕ Add Meal'}}
+        </button>
+        <button type="button" class="action-btn blue" (click)="goTo('/diary')">📅 View Diary</button>
+      </div>
+
+      <small class="food-search-message success" *ngIf="scanFoodMessage">
+        {{scanFoodMessage}}
+      </small>
+
+      <small class="food-search-message error" *ngIf="scanFoodError">
+        {{scanFoodError}}
+      </small>
+
+      <small class="food-search-message success" *ngIf="barcodeMessage">
+        {{barcodeMessage}}
+      </small>
+
+      <small class="food-search-message error" *ngIf="barcodeError">
+        {{barcodeError}}
+      </small>
+
+      <div class="meal-form-card" *ngIf="showMealForm">
+        <h4>{{editingMealId?'Edit Meal':'Add Meal'}}</h4>
+
+        <form [formGroup]="mealForm" (ngSubmit)="saveMeal()" novalidate>
+          <div class="meal-form-grid">
+            <div class="field-block">
+              <label for="mealType">Meal Type</label>
+              <select id="mealType" formControlName="mealType">
+                <option *ngFor="let type of mealTypes" [value]="type">{{type}}</option>
+              </select>
+            </div>
+
+            <div class="field-block wide">
+              <label for="mealName">Meal Name</label>
+
+              <div class="food-search-row">
+                <input
+                  id="mealName"
+                  type="text"
+                  formControlName="name"
+                  placeholder="Example: cooked spaghetti"
+                  (input)="clearFoodSearchStatus()"
+                >
+
+                <button
+                  type="button"
+                  class="food-search-btn"
+                  (click)="searchFood()"
+                  [disabled]="isSearchingFood"
+                >
+                  {{isSearchingFood ? 'Searching...' : 'Search Food'}}
+                </button>
+              </div>
+
+              <small class="food-search-message success" *ngIf="foodSearchMessage">
+                {{foodSearchMessage}}
+              </small>
+
+              <small class="food-search-message error" *ngIf="foodSearchError">
+                {{foodSearchError}}
+              </small>
+            </div>
+
+            <div class="field-block">
+              <label for="mealAmount">Amount ({{amountUnitLabel}})</label>
+              <input
+                id="mealAmount"
+                type="number"
+                formControlName="amount"
+                min="0.1"
+                step="0.1"
+                (input)="onAmountChanged()"
+              >
+            </div>
+
+            <div class="field-block">
+              <label for="mealCalories">Calories</label>
+              <input id="mealCalories" type="number" formControlName="calories" min="0" step="0.1">
+            </div>
+
+            <div class="field-block">
+              <label for="mealProtein">Protein (g)</label>
+              <input id="mealProtein" type="number" formControlName="protein" min="0" step="0.1">
+            </div>
+
+            <div class="field-block">
+              <label for="mealCarbs">Carbs (g)</label>
+              <input id="mealCarbs" type="number" formControlName="carbs" min="0" step="0.1">
+            </div>
+
+            <div class="field-block">
+              <label for="mealFats">Fats (g)</label>
+              <input id="mealFats" type="number" formControlName="fats" min="0" step="0.1">
+            </div>
+          </div>
+
+          <div class="meal-form-actions">
+            <button type="button" class="secondary-btn" (click)="cancelMealForm()">Cancel</button>
+            <button type="submit" class="primary-btn">{{editingMealId?'Save Changes':'Save Meal'}}</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <section class="content-grid">
+      <div class="left-column">
+        <h3>Recent Meals</h3>
+
+        <div class="empty-state" *ngIf="!hasAnyMeals()">
+          <div class="empty-icon">🍽️</div>
+          <h4>No meals added yet</h4>
+          <p>This is your first time here. Click <strong>Add Meal</strong> and your meal will appear here immediately.</p>
+        </div>
+
+        <div class="meal-section" *ngFor="let mealType of mealTypes">
+          <ng-container *ngIf="getMealsByType(mealType).length>0">
+            <h4>{{mealType}}</h4>
+
+            <div class="meal-card" *ngFor="let meal of getMealsByType(mealType)">
+              <div class="meal-left">
+                <div class="meal-icon">{{getMealEmoji(meal.mealType)}}</div>
+
+                <div class="meal-info">
+                  <div class="meal-name">{{meal.name}}</div>
+                  <div class="meal-macros">
+                    {{getMealAmountLabel(meal)}}
+                    <span>|</span>
+                    {{meal.calories}} kcal
+                    <span>|</span>
+                    {{meal.protein}}g P
+                    <span>|</span>
+                    {{meal.carbs}}g C
+                    <span>|</span>
+                    {{meal.fats}}g F
+                  </div>
+                </div>
+              </div>
+
+              <div class="meal-actions">
+                <button type="button" class="small-btn" (click)="startEdit(meal)">Edit</button>
+                <button type="button" class="small-btn danger" (click)="deleteMeal(meal.id)">Delete</button>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+
+      <aside class="right-column">
+        <div class="side-card">
+          <h4>Weight Progress</h4>
+          <div class="weight-row">
+            <div>Current: <strong>{{currentWeightLabel}}</strong></div>
+            <div>Goal: <strong>{{goalWeightLabel}}</strong></div>
+          </div>
+          <div class="goal-badge">{{goalLabel}}</div>
+          <p class="side-text">You have completed onboarding. Meal tracking starts now and your dashboard will update as you log food.</p>
+        </div>
+
+        <div class="side-card">
+          <h4>Health Tips</h4>
+          <div class="tip-title">{{getHealthTipTitle()}}</div>
+          <p class="side-text">{{getHealthTipText()}}</p>
+          <button type="button" class="more-btn" (click)="goTo('/recipes')">More Tips</button>
+        </div>
+
+        <app-nutrition-chat></app-nutrition-chat>
+      </aside>
+    </section>
+
+
+    <section class="meal-table-section">
+      <div class="meal-table-heading">
+        <div>
+          <h3>Today’s Meal Details</h3>
+          <p>A complete table of the foods you logged today.</p>
+        </div>
+        <button type="button" (click)="goTo('/diary')">View full diary</button>
+      </div>
+
+      <div class="meal-table-empty" *ngIf="!meals.length">
+        Add a meal and its nutrition values will appear in this table.
+      </div>
+
+      <div class="meal-table-wrap" *ngIf="meals.length">
+        <table>
+          <thead>
+            <tr>
+              <th>Meal type</th>
+              <th>Food</th>
+              <th>Amount</th>
+              <th>Calories</th>
+              <th>Protein</th>
+              <th>Carbs</th>
+              <th>Fats</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let meal of meals">
+              <td><span class="meal-type-pill">{{meal.mealType}}</span></td>
+              <td><strong>{{meal.name}}</strong></td>
+              <td>{{getMealAmountLabel(meal)}}</td>
+              <td>{{meal.calories}} kcal</td>
+              <td>{{meal.protein}} g</td>
+              <td>{{meal.carbs}} g</td>
+              <td>{{meal.fats}} g</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+</div>

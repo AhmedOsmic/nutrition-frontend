@@ -1,0 +1,51 @@
+<div class="recipes-page">
+  <header class="recipes-topbar">
+    <button class="recipes-brand" type="button" (click)="go('/dashboard')">
+      <img src="images/logo.png" alt="Logo">
+      <strong>Smart Nutrition Tracker</strong>
+    </button>
+    <nav>
+      <button type="button" (click)="go('/dashboard')">Dashboard</button>
+      <button type="button" (click)="go('/diary')">Diary</button>
+      <button type="button" class="active">Recipes</button>
+      <button type="button" (click)="go('/friends')">Friends</button>
+      <div class="recipes-user"><span>{{initials}}</span><button type="button" (click)="logout()">Logout</button></div>
+    </nav>
+  </header>
+
+  <main class="recipes-shell">
+    <section class="recipes-intro">
+      <div>
+        <p class="recipes-eyebrow">Personalized with your profile</p>
+        <h1>AI Recipe Recommendations</h1>
+        <p>Choose what you want to eat. The assistant considers your goal, preferred cuisine, allergies, and foods to avoid.</p>
+      </div>
+      <div class="recipes-symbol">🍲</div>
+    </section>
+
+    <section class="recipe-controls">
+      <div><label for="recipeMealType">Meal type</label><select id="recipeMealType" [(ngModel)]="mealType"><option *ngFor="let type of mealTypes">{{type}}</option></select></div>
+      <div><label for="recipeMinutes">Maximum preparation time</label><select id="recipeMinutes" [(ngModel)]="maxPreparationMinutes"><option [ngValue]="15">15 minutes</option><option [ngValue]="30">30 minutes</option><option [ngValue]="45">45 minutes</option><option [ngValue]="60">60 minutes</option></select></div>
+      <div class="wide"><label for="recipePreferences">Additional preferences</label><input id="recipePreferences" [(ngModel)]="additionalPreferences" maxlength="400" placeholder="Example: high protein, budget-friendly, vegetarian..."></div>
+      <button type="button" (click)="generate()" [disabled]="loading">{{loading ? 'Generating…' : '✨ Recommend Recipes'}}</button>
+    </section>
+
+    <p class="recipe-note">Nutrition values are AI estimates. Check ingredient labels and adjust portions when logging a meal.</p>
+    <div *ngIf="error" class="recipe-error">{{error}}</div>
+
+    <section *ngIf="!loading && !recipes.length && !error" class="recipe-empty">
+      <div>🥕</div><h2>Ready when you are</h2><p>Select your preferences and ask the assistant for three personalized recipe ideas.</p>
+    </section>
+
+    <section class="recipe-grid" *ngIf="recipes.length">
+      <article class="recipe-card" *ngFor="let recipe of recipes">
+        <div class="recipe-card-head"><div class="recipe-emoji">{{recipeEmoji(recipe)}}</div><div><span>{{recipe.mealType}} · {{recipe.preparationMinutes}} min</span><h2>{{recipe.title}}</h2></div></div>
+        <p class="recipe-description">{{recipe.description}}</p>
+        <div class="recipe-macros"><span><b>{{recipe.calories}}</b> kcal</span><span><b>{{recipe.protein}}</b>g P</span><span><b>{{recipe.carbs}}</b>g C</span><span><b>{{recipe.fats}}</b>g F</span></div>
+        <div class="recipe-section"><h3>Ingredients</h3><ul><li *ngFor="let ingredient of recipe.ingredients">{{ingredient}}</li></ul></div>
+        <div class="recipe-section"><h3>Steps</h3><ol><li *ngFor="let step of recipe.steps">{{step}}</li></ol></div>
+        <div class="recipe-reason"><strong>Why it fits:</strong> {{recipe.reason}}</div>
+      </article>
+    </section>
+  </main>
+</div>

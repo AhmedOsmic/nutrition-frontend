@@ -1,0 +1,106 @@
+<div class="landing-page">
+  <header class="landing-topbar">
+    <button class="landing-brand" type="button" (click)="go('/')">
+      <img src="images/logo.png" alt="Smart Nutrition Tracker logo">
+      <span>Smart Nutrition Tracker</span>
+    </button>
+
+    <div class="landing-auth-actions">
+      <button type="button" class="landing-signin" (click)="go('/signin')">Sign In</button>
+      <button type="button" class="landing-signup" (click)="go('/signup')">Sign Up</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-section">
+      <div class="hero-copy">
+        <p class="eyebrow">Simple nutrition tracking for everyday life</p>
+        <h1>Eat better.<br>Track simpler.</h1>
+        <p class="hero-text">
+          Log meals, scan food, and get simple insights to build healthy habits
+          and stay consistent.
+        </p>
+
+        <div class="hero-actions">
+          <button type="button" class="get-started" (click)="go('/signup')">Get Started</button>
+          <button type="button" class="hero-signin" (click)="go('/signin')">
+            <span aria-hidden="true">♙</span> Sign In
+          </button>
+        </div>
+      </div>
+
+      <div class="dashboard-preview" aria-label="Dashboard preview">
+        <div class="preview-heading">
+          <h2>Today’s Summary</h2>
+        </div>
+
+        <div class="preview-summary">
+          <article>
+            <div class="metric-icon blue">◉</div>
+            <div><span>Calories</span><strong>1,250 <small>kcal</small></strong></div>
+          </article>
+          <article>
+            <div class="metric-icon green">◆</div>
+            <div><span>Protein</span><strong>85 <small>g</small></strong></div>
+          </article>
+          <article>
+            <div class="metric-icon yellow">✦</div>
+            <div><span>Carbs</span><strong>150 <small>g</small></strong></div>
+          </article>
+        </div>
+
+        <div class="preview-meals-head">
+          <h3>Today’s Meals</h3>
+          <button type="button" (click)="go('/signin')">View All</button>
+        </div>
+
+        <div class="preview-meals">
+          <div class="preview-meal">
+            <img src="images/landing-yogurt.svg" alt="Greek yogurt and berries">
+            <div><strong>Greek Yogurt &amp; Berries</strong><small>Greek yogurt, blueberries, almonds</small></div>
+            <time>8:30 AM</time>
+          </div>
+          <div class="preview-meal">
+            <img src="images/landing-salad.svg" alt="Grilled chicken salad">
+            <div><strong>Grilled Chicken Salad</strong><small>Chicken, mixed greens, olive oil</small></div>
+            <time>1:00 PM</time>
+          </div>
+          <div class="preview-meal">
+            <img src="images/landing-oatmeal.svg" alt="Oatmeal with banana">
+            <div><strong>Oatmeal with Banana</strong><small>Oats, banana, honey</small></div>
+            <time>7:30 PM</time>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-features" aria-label="Main features">
+      <article>
+        <div class="feature-icon green">🍴</div>
+        <div><h2>Log Meals</h2><p>Quickly log meals and get simple nutrition insights.</p></div>
+      </article>
+      <article>
+        <div class="feature-icon blue">📷</div>
+        <div><h2>Scan Food</h2><p>Scan barcodes or take a photo to track food in seconds.</p></div>
+      </article>
+      <article>
+        <div class="feature-icon yellow">👥</div>
+        <div><h2>Connect with Friends</h2><p>Share meals, get inspired, and stay accountable together.</p></div>
+      </article>
+    </section>
+
+    <section class="how-section">
+      <h2>How it works</h2>
+      <div class="how-grid">
+        <article><span class="step-number">1</span><div class="step-icon">👤</div><div><h3>Create account</h3><p>Sign up in seconds and set up your profile.</p></div></article>
+        <article><span class="step-number">2</span><div class="step-icon">🎯</div><div><h3>Set your goals</h3><p>Choose your goals and personalize your plan.</p></div></article>
+        <article><span class="step-number">3</span><div class="step-icon">▥</div><div><h3>Start tracking</h3><p>Log meals, scan food, and build healthy habits.</p></div></article>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span>© Smart Nutrition Tracker</span>
+    <span>General wellness information, not medical advice.</span>
+  </footer>
+</div>

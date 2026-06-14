@@ -1,0 +1,61 @@
+<div class="diary-page">
+  <header class="diary-topbar">
+    <button class="diary-brand" type="button" (click)="go('/dashboard')">
+      <img src="images/logo.png" alt="Logo">
+      <strong>Smart Nutrition Tracker</strong>
+    </button>
+    <nav>
+      <button type="button" (click)="go('/dashboard')">Dashboard</button>
+      <button type="button" class="active">Diary</button>
+      <button type="button" (click)="go('/recipes')">Recipes</button>
+      <button type="button" (click)="go('/friends')">Friends</button>
+      <div class="diary-user"><span>{{initials}}</span><button type="button" (click)="logout()">Logout</button></div>
+    </nav>
+  </header>
+
+  <main class="diary-shell">
+    <div class="diary-title-row">
+      <div><h1>Meal Diary</h1><p>Review meals and nutrition totals across multiple days.</p></div>
+      <button type="button" class="add-meal" (click)="go('/dashboard')">＋ Add Today’s Meal</button>
+    </div>
+
+    <div class="range-selector" aria-label="Diary range">
+      <span>Show:</span>
+      <button type="button" [class.active]="rangeDays === 7" (click)="load(7)">7 days</button>
+      <button type="button" [class.active]="rangeDays === 14" (click)="load(14)">14 days</button>
+      <button type="button" [class.active]="rangeDays === 30" (click)="load(30)">30 days</button>
+    </div>
+
+    <div *ngIf="error" class="diary-alert">{{error}}</div>
+    <div *ngIf="loading" class="diary-loading">Loading diary…</div>
+
+    <section *ngIf="!loading && !days.length" class="diary-empty">
+      <div>📅</div><h2>No meals in this date range</h2><p>Add meals from the Dashboard and they will appear here by date.</p>
+    </section>
+
+    <section class="diary-days" *ngIf="!loading && days.length">
+      <article class="diary-day" *ngFor="let day of days; trackBy: trackDay">
+        <div class="day-head">
+          <div><h2>{{formatDate(day.date)}}</h2><span>{{day.meals.length}} meal{{day.meals.length === 1 ? '' : 's'}}</span></div>
+          <div class="day-totals">
+            <span><b>{{day.calories}}</b> kcal</span>
+            <span><b>{{day.protein}}</b>g P</span>
+            <span><b>{{day.carbs}}</b>g C</span>
+            <span><b>{{day.fats}}</b>g F</span>
+          </div>
+        </div>
+
+        <div class="day-table-wrap">
+          <table>
+            <thead><tr><th>Time</th><th>Meal</th><th>Food</th><th>Amount</th><th>Calories</th><th>Protein</th><th>Carbs</th><th>Fats</th></tr></thead>
+            <tbody>
+              <tr *ngFor="let meal of day.meals">
+                <td>{{formatTime(meal.createdAt)}}</td><td>{{meal.mealType}}</td><td><strong>{{meal.foodName}}</strong></td><td>{{meal.amountGrams}} g</td><td>{{meal.calories}}</td><td>{{meal.protein}} g</td><td>{{meal.carbs}} g</td><td>{{meal.fats}} g</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </section>
+  </main>
+</div>

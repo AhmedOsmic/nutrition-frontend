@@ -1,0 +1,49 @@
+<section class="chat-card">
+  <div class="chat-heading">
+    <div class="chat-icon">AI</div>
+    <div>
+      <h4>Nutrition Assistant</h4>
+      <p>How can we help you?</p>
+    </div>
+  </div>
+
+  <div class="chat-messages" aria-live="polite">
+    <div
+      *ngFor="let message of messages"
+      class="chat-message"
+      [class.user]="message.role === 'user'"
+      [class.assistant]="message.role === 'assistant'"
+    >
+      {{message.text}}
+    </div>
+    <div *ngIf="loading" class="chat-message assistant typing">Thinking…</div>
+  </div>
+
+  <div class="quick-questions">
+    <button
+      *ngFor="let quick of quickQuestions"
+      type="button"
+      (click)="useQuickQuestion(quick)"
+      [disabled]="loading"
+    >
+      {{quick}}
+    </button>
+  </div>
+
+  <div class="chat-input-row">
+    <textarea
+      [(ngModel)]="question"
+      (keydown)="onKeydown($event)"
+      maxlength="1000"
+      rows="2"
+      placeholder="Ask a nutrition question..."
+      aria-label="Nutrition question"
+    ></textarea>
+    <button type="button" (click)="send()" [disabled]="loading || !question.trim()">
+      Send
+    </button>
+  </div>
+
+  <p *ngIf="error" class="chat-error">{{error}}</p>
+  <small class="chat-disclaimer">{{disclaimer}}</small>
+</section>

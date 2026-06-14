@@ -1,0 +1,55 @@
+<div class="social-page">
+  <header class="social-topbar">
+    <div class="social-brand" (click)="go('/dashboard')"><img src="images/logo.png" alt="Logo"><strong>Smart Nutrition Tracker</strong></div>
+    <nav class="social-nav">
+      <button (click)="go('/dashboard')">Dashboard</button><button (click)="go('/friends')">Friends</button><button (click)="go('/posts')">Posts</button>
+      <div class="social-user"><div class="social-avatar avatar-fallback">{{initials}}</div><div class="social-user-text"><b>{{profileForm.controls['fullName'].value}}</b><button (click)="logout()">Logout</button></div></div>
+    </nav>
+  </header>
+
+  <main class="social-shell">
+    <h1 class="social-title">Edit Profile</h1>
+    <div *ngIf="message" class="social-alert success">{{message}}</div><div *ngIf="error" class="social-alert error">{{error}}</div>
+    <div *ngIf="loading" class="social-loading">Loading profile...</div>
+
+    <form *ngIf="!loading" [formGroup]="profileForm" (ngSubmit)="save()" class="profile-layout">
+      <aside class="social-card photo-card">
+        <h3>Profile Photo</h3>
+        <img *ngIf="profileForm.controls['avatarUrl'].value" [src]="profileForm.controls['avatarUrl'].value" class="profile-photo" alt="Profile photo">
+        <div *ngIf="!profileForm.controls['avatarUrl'].value" class="profile-photo avatar-fallback">{{initials}}</div>
+        <small>JPG, PNG or WEBP. The image is compressed before saving.</small>
+        <label class="social-btn blue photo-button">📷 Change Photo<input type="file" accept="image/*" hidden (change)="onPhotoSelected($event)"></label>
+        <button type="button" class="social-btn outline" (click)="showPassword=!showPassword">🔒 Change Password</button>
+      </aside>
+
+      <section class="social-card profile-form-card">
+        <h3>Personal Information</h3>
+        <div class="profile-grid">
+          <div class="social-field"><label>Full Name</label><input class="social-input" formControlName="fullName"></div>
+          <div class="social-field"><label>Username</label><input class="social-input" formControlName="username" placeholder="your.username"></div>
+          <div class="social-field"><label>Email</label><input class="social-input" [value]="profile?.email" disabled></div>
+          <div class="social-field"><label>Bio</label><textarea class="social-textarea" rows="3" formControlName="bio" placeholder="Tell friends about yourself..."></textarea></div>
+          <div class="social-field"><label>Age</label><input type="number" class="social-input" formControlName="age"></div>
+          <div class="social-field"><label>Gender</label><select class="social-select" formControlName="gender"><option>Male</option><option>Female</option><option>Other</option></select></div>
+          <div class="social-field"><label>Height (cm)</label><input type="number" class="social-input" formControlName="heightCm"></div>
+          <div class="social-field"><label>Weight (kg)</label><input type="number" class="social-input" formControlName="weightKg"></div>
+          <div class="social-field"><label>Goal</label><select class="social-select" formControlName="goal"><option value="lose">Lose Weight</option><option value="maintain">Maintain Weight</option><option value="gain">Gain Muscle</option></select></div>
+          <div class="social-field"><label>Activity Level</label><select class="social-select" formControlName="activityLevel"><option>Sedentary</option><option>Lightly active</option><option>Moderately active</option><option>Very active</option></select></div>
+          <div class="social-field"><label>Preferred Cuisine</label><input class="social-input" formControlName="preferredCuisine"></div>
+          <div class="social-field"><label>Unit System</label><select class="social-select" formControlName="unitSystem"><option value="metric">Metric (kg, cm)</option><option value="imperial">Imperial (lb, ft)</option></select></div>
+          <div class="social-field"><label>Target Weight (kg)</label><input type="number" class="social-input" formControlName="targetWeightKg"></div>
+          <div class="social-field"><label>Meals Per Day</label><input type="number" class="social-input" formControlName="mealsPerDay"></div>
+          <div class="social-field"><label>Allergies</label><input class="social-input" formControlName="allergies"></div>
+          <div class="social-field"><label>Foods to Avoid</label><input class="social-input" formControlName="foodsToAvoid"></div>
+        </div>
+        <h3 class="targets-heading">Daily Targets</h3>
+        <div class="target-grid"><div class="social-field"><label>Calories</label><input type="number" class="social-input" formControlName="targetCalories"></div><div class="social-field"><label>Protein (g)</label><input type="number" class="social-input" formControlName="targetProtein"></div><div class="social-field"><label>Carbs (g)</label><input type="number" class="social-input" formControlName="targetCarbs"></div><div class="social-field"><label>Fats (g)</label><input type="number" class="social-input" formControlName="targetFats"></div></div>
+        <button class="social-btn primary save-profile" [disabled]="saving">{{saving?'Saving...':'💾 Save Changes'}}</button>
+      </section>
+    </form>
+
+    <section *ngIf="showPassword" class="social-card password-card" [formGroup]="passwordForm">
+      <h3>Change Password</h3><div class="password-grid"><input type="password" class="social-input" formControlName="currentPassword" placeholder="Current password"><input type="password" class="social-input" formControlName="newPassword" placeholder="New password"><input type="password" class="social-input" formControlName="confirmPassword" placeholder="Confirm new password"><button type="button" class="social-btn blue" (click)="changePassword()">Update Password</button></div>
+    </section>
+  </main>
+</div>

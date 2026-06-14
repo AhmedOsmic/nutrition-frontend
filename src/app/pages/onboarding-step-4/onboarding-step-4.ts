@@ -1,6 +1,7 @@
 import {Component,Inject,PLATFORM_ID} from '@angular/core';
 import {CommonModule,isPlatformBrowser} from '@angular/common';
 import {Router} from '@angular/router';
+import {ProfileService} from '../../services/profile';
 
 type Step1Data={
   unitSystem:'metric'|'imperial';
@@ -61,6 +62,7 @@ export class OnboardingStep4{
 
   constructor(
     private router:Router,
+    private profileService:ProfileService,
     @Inject(PLATFORM_ID) platformId:Object
   ){
     this.isBrowser=isPlatformBrowser(platformId);
@@ -126,6 +128,18 @@ export class OnboardingStep4{
 
     const totalInches=(Number(this.step1Data.heightFt||0)*12)+Number(this.step1Data.heightIn||0);
     return totalInches*2.54;
+  }
+
+  private getTargetWeightKg():number{
+    if(!this.step2Data){
+      return 0;
+    }
+
+    if(this.step2Data.targetWeightUnit==='kg'){
+      return Number(this.step2Data.targetWeight||0);
+    }
+
+    return Number(this.step2Data.targetWeight||0)*0.45359237;
   }
 
   private getActivityFactor(activityLevel:string):number{
@@ -218,7 +232,7 @@ export class OnboardingStep4{
   }
 
   finishSetup():void{
-    if(!this.isBrowser){
+    if(!this.isBrowser||!this.step1Data||!this.step2Data){
       return;
     }
 
@@ -229,16 +243,36 @@ export class OnboardingStep4{
       dailyTargets:this.dailyTargets
     };
 
-    sessionStorage.setItem('onboardingSummary',JSON.stringify(finalSummary));
-    localStorage.setItem('onboardingSummary',JSON.stringify(finalSummary));
-    localStorage.setItem('hasCompletedOnboarding','true');
+    const payload={
+      unitSystem:this.step1Data.unitSystem,
+      age:Number(this.step1Data.age),
+      gender:this.step1Data.gender,
+      heightCm:Number(this.getHeightCm().toFixed(2)),
+      weightKg:Number(this.getWeightKg().toFixed(2)),
+      activityLevel:this.step2Data.activityLevel,
+      goal:this.step2Data.goal,
+      targetWeightKg:Number(this.getTargetWeightKg().toFixed(2)),
+      mealsPerDay:Number(this.step2Data.mealsPerDay),
+      allergies:this.step3Data?.allergies?.join(', ')||'',
+      foodsToAvoid:this.step3Data?.foodsToAvoid?.trim()||'',
+      preferredCuisine:this.step3Data?.preferredCuisine?.trim()||'',
+      targetCalories:this.dailyTargets.calories,
+      targetProtein:this.dailyTargets.protein,
+      targetCarbs:this.dailyTargets.carbs,
+      targetFats:this.dailyTargets.fats
+    };
 
-    const pendingUser=localStorage.getItem('pendingSignupUser');
-
-    if(pendingUser&&!localStorage.getItem('authUser')){
-      localStorage.setItem('authUser',pendingUser);
-    }
-
-    this.router.navigate(['/dashboard']);
+    this.profileService.saveProfile(payload).subscribe({
+      next:()=>{
+        sessionStorage.setItem('onboardingSummary',JSON.stringify(finalSummary));
+        localStorage.setItem('onboardingSummary',JSON.stringify(finalSummary));
+        localStorage.setItem('hasCompletedOnboarding','true');
+        this.router.navigate(['/dashboard']);
+      },
+      error:(error)=>{
+        console.log('PROFILE SAVE ERROR:',error);
+        alert(error?.error?.message||'Could not save profile.');
+      }
+    });
   }
 }

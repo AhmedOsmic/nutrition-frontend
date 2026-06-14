@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../config/api-config';
 
 export type AuthResponse = {
   message: string;
@@ -20,7 +21,7 @@ export type AuthUser = {
   providedIn: 'root'
 })
 export class Auth {
-  private apiUrl = 'http://localhost:8080/api/auth';
+  private apiUrl = `${API_BASE_URL}/api/auth`;
 
   private readonly tokenKey = 'authToken';
   private readonly userKey = 'authUser';

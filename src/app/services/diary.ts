@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../config/api-config';
 
 export type DiaryMeal = {
   id: number;
@@ -25,7 +26,7 @@ export type DiaryDay = {
 
 @Injectable({ providedIn: 'root' })
 export class DiaryService {
-  private readonly apiUrl = 'http://localhost:8080/api/diary';
+  private readonly apiUrl = `${API_BASE_URL}/api/diary`;
 
   constructor(private http: HttpClient) {}
 

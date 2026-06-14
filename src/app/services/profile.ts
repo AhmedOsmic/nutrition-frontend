@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../config/api-config';
 
 export type UserProfilePayload = {
   unitSystem: string;
@@ -46,7 +47,7 @@ export type UserProfileResponse = {
   providedIn: 'root'
 })
 export class ProfileService {
-  private readonly apiUrl = 'http://localhost:8080/api/profile';
+  private readonly apiUrl = `${API_BASE_URL}/api/profile`;
 
   constructor(private http: HttpClient) {}
 

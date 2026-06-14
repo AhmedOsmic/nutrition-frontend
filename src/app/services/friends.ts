@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../config/api-config';
 
 export type PublicUser = {
   id: number;
@@ -21,7 +22,7 @@ export type FriendRequest = {
 
 @Injectable({ providedIn: 'root' })
 export class FriendsService {
-  private readonly apiUrl = 'http://localhost:8080/api/friends';
+  private readonly apiUrl = `${API_BASE_URL}/api/friends`;
 
   constructor(private http: HttpClient) {}
 

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../config/api-config';
 
 export type AccountProfile = {
   id: number;
@@ -31,7 +32,7 @@ export type AccountProfileUpdate = Omit<AccountProfile, 'id' | 'email'>;
 
 @Injectable({ providedIn: 'root' })
 export class AccountService {
-  private readonly apiUrl = 'http://localhost:8080/api/account';
+  private readonly apiUrl = `${API_BASE_URL}/api/account`;
 
   constructor(private http: HttpClient) {}
 

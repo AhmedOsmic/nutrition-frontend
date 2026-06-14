@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../config/api-config';
 
 export type NutritionChatResponse = {
   answer: string;
@@ -29,7 +30,7 @@ export type RecipeRecommendation = {
 
 @Injectable({ providedIn: 'root' })
 export class NutritionAiService {
-  private readonly apiUrl = 'http://localhost:8080/api/ai';
+  private readonly apiUrl = `${API_BASE_URL}/api/ai`;
 
   constructor(private http: HttpClient) {}
 

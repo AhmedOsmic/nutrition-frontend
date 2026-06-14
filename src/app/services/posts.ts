@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { PublicUser } from './friends';
+import { API_BASE_URL } from '../config/api-config';
 
 export type PostMeal = {
   id: number;
@@ -36,7 +37,7 @@ export type SocialPost = {
 
 @Injectable({ providedIn: 'root' })
 export class PostsService {
-  private readonly apiUrl = 'http://localhost:8080/api/posts';
+  private readonly apiUrl = `${API_BASE_URL}/api/posts`;
 
   constructor(private http: HttpClient) {}
 

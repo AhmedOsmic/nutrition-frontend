@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { API_BASE_URL } from '../config/api-config';
 
 export type MealPayload = {
   mealType: string;
@@ -69,10 +70,10 @@ export type BarcodeProductResponse = {
   providedIn: 'root'
 })
 export class MealsService {
-  private readonly mealsApiUrl = 'http://localhost:8080/api/meals';
-  private readonly nutritionApiUrl = 'http://localhost:8080/api/nutrition';
-  private readonly foodAnalysisApiUrl = 'http://localhost:8080/api/food-analysis';
-  private readonly barcodeApiUrl = 'http://localhost:8080/api/barcodes';
+  private readonly mealsApiUrl = `${API_BASE_URL}/api/meals`;
+  private readonly nutritionApiUrl = `${API_BASE_URL}/api/nutrition`;
+  private readonly foodAnalysisApiUrl = `${API_BASE_URL}/api/food-analysis`;
+  private readonly barcodeApiUrl = `${API_BASE_URL}/api/barcodes`;
 
   constructor(private http: HttpClient) {}
 
